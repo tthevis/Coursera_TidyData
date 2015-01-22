@@ -1,4 +1,5 @@
 library(dplyr)
+library(stringr)
 
 # Step 0
 # Download and unzip data if not already present
@@ -17,17 +18,17 @@ if(!file.exists('data/UCI HAR Dataset')) {
 # Create one data set from training and test data (ignore 'Inertial Signals' folder)
 # (activity label and subject information will be added in step 3)
 
-# trainData <- read.table('data/UCI HAR Dataset/train/X_train.txt')
-# trainLabels <- read.table('data/UCI HAR Dataset/train/y_train.txt')
-# trainSubjects <- read.table('data/UCI HAR Dataset/train/y_train.txt')
-#
-# testData <- read.table('data/UCI HAR Dataset/test/X_test.txt')
-# testLabels <- read.table('data/UCI HAR Dataset/test/y_test.txt')
-# testSubjects <- read.table('data/UCI HAR Dataset/test/y_test.txt')
-#
-# fullData <- rbind(trainData, testData)
-# fullLabels <- rbind(trainLabels, testLabels)
-# fullSubjects <- rbind(trainSubjects, testSubjects)
+trainData <- read.table('data/UCI HAR Dataset/train/X_train.txt')
+trainLabels <- read.table('data/UCI HAR Dataset/train/y_train.txt')
+trainSubjects <- read.table('data/UCI HAR Dataset/train/subject_train.txt')
+
+testData <- read.table('data/UCI HAR Dataset/test/X_test.txt')
+testLabels <- read.table('data/UCI HAR Dataset/test/y_test.txt')
+testSubjects <- read.table('data/UCI HAR Dataset/test/subject_test.txt')
+
+fullData <- rbind(trainData, testData)
+fullLabels <- rbind(trainLabels, testLabels)
+fullSubjects <- rbind(trainSubjects, testSubjects)
 
 
 # Step 2
@@ -43,18 +44,28 @@ meanStdDevData <- select(fullData, meanStdDevIndices)
 # - Bind activity and subject information to the data
 
 activities <- read.table('data/UCI HAR Dataset/activity_labels.txt', stringsAsFactors = F)
-actNames <- merge(x= fullLabels, y = activities)[2]
+actNames <- sapply(fullLabels, function(i) { activities[i, 2] })
 DF <- cbind(fullSubjects, actNames, meanStdDevData)
 
 
 # Step 4
 # Label the data set with descriptive variable names
-names(DF) <- c("Subject", "Activity", featureNames[meanStdDevIndices, 2])
+
+# hyphen and parenthesis are illegal in variable names and must be removed
+RepairName <- function(name) {
+  name <- str_replace(name, 'mean\\(\\)', 'Mean')
+  name <- str_replace(name, 'std\\(\\)', 'Std')
+  name <- str_replace_all(name, '\\-', '')
+  name
+}
+features <- sapply(featureNames[meanStdDevIndices, 2], RepairName)
+names(DF) <- c("subject", "activity", features)
 
 
 # Step 5
 # Create tidy data set with the average of each variable for each activity and each subject
-grp <- group_by(DF, Subject, Activity)
+# -> please find my design decision on `tidy` in the `README.md`
+grp <- group_by(DF, subject, activity)
 tidyDF <- summarise_each(grp, funs(mean))
 
 write.table(tidyDF, file="tidyDF.txt")
