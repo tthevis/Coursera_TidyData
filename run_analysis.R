@@ -68,4 +68,4 @@ names(DF) <- c("subject", "activity", features)
 grp <- group_by(DF, subject, activity)
 tidyDF <- summarise_each(grp, funs(mean))
 
-write.table(tidyDF, file="tidyDF.txt")
+write.table(tidyDF, file="tidyDF.txt", row.name=FALSE)
