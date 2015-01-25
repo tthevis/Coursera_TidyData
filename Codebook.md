@@ -31,12 +31,12 @@ This selection contains 66 features.
 
 ## List of Variables
 
-*Observations.*
+**Observations.**
 
     subject                     - integer values 1 .. 30
     activity                    - factor with 6 levels (see description above)
 
-*Variables.*
+**Variables.**
 The original signal variables were obtained with different frequency units. Afterwards, they were normalized to values in the range of `[-1, 1]`.
 
   	time.body.acc.mean.x
