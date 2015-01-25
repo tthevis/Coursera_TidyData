@@ -11,7 +11,7 @@ The following R libraries will be used throughout script execution and have to b
 * `stringr` ([Package on cran](http://cran.r-project.org/web/packages/stringr/index.html))
 
 Furthermore, the user executing the script needs to have _write_ permissions in the working directory. 
-The data set will require roughly 300MB of space on the disk wich will be stored in a subfolder called `data`.
+The data set will require roughly 300MB of space on the disk and will be stored in the working directory if not already present.
 
 ## Script Execution
 
@@ -19,7 +19,7 @@ The script can be executed without any configuration or command line parameter.
 
     source('run_analysis.R')
     
-If the data from http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones is already locally available, a re-download can be omitted if the original zip archive is extracted into a subdirectory `data` of the working directory.     
+If the data from http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones is already locally available, a re-download can be omitted if the original zip archive is extracted into the working directory.     
 
 ## Output Data
 
