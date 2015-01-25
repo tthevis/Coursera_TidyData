@@ -17,6 +17,10 @@ The data set will require roughly 300MB of space on the disk wich will be stored
 
 The script can be executed without any configuration or command line parameter. 
 
+    source('run_analysis.R')
+    
+If the data from http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones is already locally available, a re-download can be omitted if the original zip archive is extracted into a subdirectory `data` of the working directory.     
+
 ## Output Data
 
 The result is a single file `tidyDF.txt` representing a _tidy_ data set in the sense of [Hadley Wickham's Tidy Data Article](http://www.jstatsoft.org/v59/i10/):
