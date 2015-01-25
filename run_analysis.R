@@ -4,15 +4,13 @@ library(stringr)
 # Step 0
 # Download and unzip data if not already present
 
-getData <- function() {
+if(!file.exists('UCI HAR Dataset')) {  
   download.file('https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip',
                 destfile = 'tmp.zip',
                 method = 'curl') 
   unzip('tmp.zip')
   file.remove('tmp.zip')
 }
-
-if(!file.exists('UCI HAR Dataset')) { getData() }
 
 
 # Step 1
